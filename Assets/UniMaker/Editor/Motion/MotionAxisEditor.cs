@@ -10,9 +10,9 @@ public class MotionAxisEditor : Editor
     // Script properties
     private SerializedProperty allowInput;
     private SerializedProperty axisOrder;
-    private SerializedProperty smoothMovement;
-    private SerializedProperty allowHorizontal;
-    private SerializedProperty allowVertical;
+    private SerializedProperty forceBoost;
+    private SerializedProperty smoothMovement; 
+    private SerializedProperty movementForceOverride; 
 
     // Textures for custom editor
     private Texture2D axisTexture;
@@ -23,9 +23,9 @@ public class MotionAxisEditor : Editor
         // Reference to properties
         allowInput = serializedObject.FindProperty("allowInput");
         axisOrder = serializedObject.FindProperty("axisOrder");
+        forceBoost = serializedObject.FindProperty("forceBoost");
         smoothMovement = serializedObject.FindProperty("smoothMovement");
-        allowHorizontal = serializedObject.FindProperty("allowHorizontal");
-        allowVertical = serializedObject.FindProperty("allowVertical");
+        movementForceOverride = serializedObject.FindProperty("movementForceOverride");
 
         // Textures for buttons 
         axisTexture = (Texture2D)Resources.Load("EditorTextures/Axis/Atlas");
@@ -123,6 +123,18 @@ public class MotionAxisEditor : Editor
             GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();
         }
+
+        // Recover normal colors for rest of the UI
+        GUI.color = new Color(1, 1, 1, 1);
+
+        // Motion internal speed boost
+        EditorGUILayout.PropertyField(forceBoost, new GUIContent("Force boost"));
+
+        // Smooth movement
+        EditorGUILayout.PropertyField(smoothMovement, new GUIContent("Smooth movement"));
+
+        // Override motion for external control or not input control
+        EditorGUILayout.PropertyField(movementForceOverride, new GUIContent("Override movement"));
 
         // Apply changes to the serializedProperty - always do this in the end of OnInspectorGUI.*/
         serializedObject.ApplyModifiedProperties();

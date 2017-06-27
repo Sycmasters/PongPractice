@@ -35,6 +35,11 @@ public class MotionAxis : MonoBehaviour
 
     void Update ()
     {
+        if(!allowInput)
+        {
+            return;
+        }
+
         // Change this with your favorite Input mapping
         horizontalAxis = Input.GetAxis("Horizontal") * forceBoost;
         verticalAxis = Input.GetAxis("Vertical") * forceBoost;
@@ -60,50 +65,74 @@ public class MotionAxis : MonoBehaviour
         {
             case AxesDirectionOrder.H_X_X:
                 movementForce = new Vector3(horizontalAxis, 0, 0);
+                allowHorizontal = true;
+                allowVertical = false;
                 break;
 
             case AxesDirectionOrder.X_H_X:
                 movementForce = new Vector3(0, horizontalAxis, 0);
+                allowHorizontal = true;
+                allowVertical = false;
                 break;
 
             case AxesDirectionOrder.X_X_H:
                 movementForce = new Vector3(0, 0, horizontalAxis);
+                allowHorizontal = true;
+                allowVertical = false;
                 break;
 
             case AxesDirectionOrder.V_X_X:
                 movementForce = new Vector3(verticalAxis, 0, 0);
+                allowHorizontal = false;
+                allowVertical = true;
                 break;
 
             case AxesDirectionOrder.X_V_X:
                 movementForce = new Vector3(0, verticalAxis, 0);
+                allowHorizontal = false;
+                allowVertical = true;
                 break;
 
             case AxesDirectionOrder.X_X_V:
                 movementForce = new Vector3(0, 0, verticalAxis);
+                allowHorizontal = false;
+                allowVertical = true;
                 break;
 
             case AxesDirectionOrder.H_V_X:
                 movementForce = new Vector3(horizontalAxis, verticalAxis, 0);
+                allowHorizontal = true;
+                allowVertical = true;
                 break;
 
             case AxesDirectionOrder.H_X_V:
                 movementForce = new Vector3(horizontalAxis, 0, verticalAxis);
+                allowHorizontal = true;
+                allowVertical = true;
                 break;
 
             case AxesDirectionOrder.V_H_X:
                 movementForce = new Vector3(verticalAxis, horizontalAxis, 0);
+                allowHorizontal = true;
+                allowVertical = true;
                 break;
 
             case AxesDirectionOrder.V_X_H:
                 movementForce = new Vector3(verticalAxis, 0, horizontalAxis);
+                allowHorizontal = true;
+                allowVertical = true;
                 break;
 
             case AxesDirectionOrder.X_H_V:
                 movementForce = new Vector3(0, horizontalAxis, verticalAxis);
+                allowHorizontal = true;
+                allowVertical = true;
                 break;
 
             case AxesDirectionOrder.X_V_H:
                 movementForce = new Vector3(0, verticalAxis, horizontalAxis);
+                allowHorizontal = true;
+                allowVertical = true;
                 break;
         }
     }
@@ -111,7 +140,7 @@ public class MotionAxis : MonoBehaviour
     public Vector3 GetMovement ()
     {
         // We want to control movement, do not return input axis but set vector
-        if(movementForceOverride.sqrMagnitude > 0)
+        if(movementForceOverride.sqrMagnitude > 0 || !allowInput)
         {
             return movementForceOverride;
         }
