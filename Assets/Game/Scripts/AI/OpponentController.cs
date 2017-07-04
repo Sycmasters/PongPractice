@@ -37,8 +37,6 @@ public class OpponentController : MonoBehaviour
         {
             move.y = 0;
         }
-        Debug.Log((target.position.y - transform.position.y));
-
         // Since AI is not controlled by input we overwrite the input movment
         motion.movementForceOverride = move;
     }

@@ -142,7 +142,7 @@ public class MotionAxis : MonoBehaviour
         // We want to control movement, do not return input axis but set vector
         if(movementForceOverride.sqrMagnitude > 0 || !allowInput)
         {
-            return movementForceOverride;
+            return movementForceOverride * forceBoost;
         }
 
         // Here we want to return the vector with player input
